@@ -25,7 +25,7 @@ namespace BookExtension
 
             Book book = (Book)argument;
 
-            string resultNewFormat = "Author is " + book.Author.ToString();
+            string resultNewFormat = "Author is " + book.Author.ToString().Trim();
 
             return resultNewFormat;
              
