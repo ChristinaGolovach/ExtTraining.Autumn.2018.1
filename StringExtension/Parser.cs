@@ -28,7 +28,7 @@ namespace StringExtension
             }
                         
             int outputNumber = 0;
-
+            source = source.ToUpper();
             for (int i=0; i< source.Length; i++)
             {
                 int index = SIGNS.IndexOf(source[i]);
@@ -40,7 +40,7 @@ namespace StringExtension
                 outputNumber = outputNumber + index * (int)Math.Pow(@base,(source.Length-1-i));
             }
 
-            if (outputNumber >= int.MaxValue-1)
+            if (outputNumber >= int.MaxValue)
             {
                 throw new ArgumentException($"Input {source} is more than int.MaxValue");
             }
