@@ -17,27 +17,31 @@ namespace StringExtension
         
         public static int ToDecimal(this string source, int @base)
         {
-            if (string.IsNullOrEmpty(source))
-            {
-                throw new ArgumentNullException($"The {source} can not be null or empty");
-            }
-
-            if (@base > MAXBASE || @base < MINBASE)
-            {
-                throw new ArgumentOutOfRangeException($"The {@base} can not be more than {MAXBASE} or less than {MINBASE}");
-            }
+            CheckInputData(source, @base);
                         
             ulong outputNumber = 0;
-            source = source.ToUpper();
-            for (int i=0; i< source.Length; i++)
+            source = source.ToUpperInvariant();
+
+            for (int i = 0; i < source.Length; i++)
             {
                 int index = SIGNS.IndexOf(source[i]);
                 
                 if (index > @base-1 || index < 0)
                 {
                     throw new ArgumentException($"The {source[i]} is not used in this number system.");
-                }              
-                outputNumber = outputNumber + (ulong)index * (ulong)Math.Pow(@base,(source.Length-1-i));
+                }
+
+                try
+                {
+                    checked
+                    {
+                        outputNumber = outputNumber + (ulong)index * (ulong)Math.Pow(@base, (source.Length - 1 - i));
+                    }
+                }
+                catch (OverflowException overflowEx)
+                {
+                    throw new ArgumentException($"The input {source} is big number.", overflowEx);
+                }                
             }
 
             if (outputNumber >= int.MaxValue)
@@ -45,8 +49,25 @@ namespace StringExtension
                 throw new ArgumentException($"Input {source} is more than int.MaxValue");
             }
 
-            return (int)outputNumber;
-                       
+            return (int)outputNumber;                       
+        }
+
+        private static void CheckInputData(string source, int @base)
+        {
+            if (ReferenceEquals(source, null))
+            {
+                throw new ArgumentNullException($"The {source} can not be null.");
+            }
+
+            if (source.Length <= 0)
+            {
+                throw new ArgumentException($"The {source} can not be empty.");
+            }
+
+            if (@base > MAXBASE || @base < MINBASE)
+            {
+                throw new ArgumentOutOfRangeException($"The {@base} can not be more than {MAXBASE} or less than {MINBASE}");
+            }
         }
     }
 }
