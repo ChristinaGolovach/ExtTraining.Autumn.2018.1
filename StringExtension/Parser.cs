@@ -27,7 +27,7 @@ namespace StringExtension
                 throw new ArgumentOutOfRangeException($"The {@base} can not be more than {MAXBASE} or less than {MINBASE}");
             }
                         
-            int outputNumber = 0;
+            ulong outputNumber = 0;
             source = source.ToUpper();
             for (int i=0; i< source.Length; i++)
             {
@@ -37,7 +37,7 @@ namespace StringExtension
                 {
                     throw new ArgumentException($"The {source[i]} is not used in this number system.");
                 }              
-                outputNumber = outputNumber + index * (int)Math.Pow(@base,(source.Length-1-i));
+                outputNumber = outputNumber + (ulong)index * (ulong)Math.Pow(@base,(source.Length-1-i));
             }
 
             if (outputNumber >= int.MaxValue)
@@ -45,7 +45,7 @@ namespace StringExtension
                 throw new ArgumentException($"Input {source} is more than int.MaxValue");
             }
 
-            return outputNumber;
+            return (int)outputNumber;
                        
         }
     }
