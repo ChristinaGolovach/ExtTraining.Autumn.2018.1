@@ -8,7 +8,7 @@ namespace BookExtension
     {
         IFormatProvider parentformatProvider;
 
-        public BookFormatExtension() : this(CultureInfo.InvariantCulture) { }
+        public BookFormatExtension() : this(CultureInfo.CurrentCulture) { }
 
         public BookFormatExtension(IFormatProvider parentFormatProvoder)
         {
@@ -18,17 +18,15 @@ namespace BookExtension
         public string Format(string format, object argument, IFormatProvider formatProvider)
         {
             string inputFormat = format.ToUpperInvariant();
+
             if (argument == null || inputFormat != "NEW" || argument.GetType() != typeof(Book))
             {
                 return string.Format(parentformatProvider, "{0:" + format + "}", argument);
             }
 
-            Book book = (Book)argument;
+            Book book = (Book)argument;             
 
-            string resultNewFormat = "Author is " + book.Author.ToString().Trim();
-
-            return resultNewFormat;
-             
+            return $"Author is {book.Author}";
         }
 
         public object GetFormat(Type formatType)
@@ -37,7 +35,6 @@ namespace BookExtension
             {
                 return this;
             }
-
             else
             {
                 return null;

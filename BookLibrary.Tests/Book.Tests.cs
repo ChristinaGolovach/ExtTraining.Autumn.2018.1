@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using NUnit.Framework;
 
 namespace BookLibrary.Tests
@@ -6,13 +8,28 @@ namespace BookLibrary.Tests
     [TestFixture]
     public class BookTests
     {
-        Book book = new Book() { Title = "C# in Depth    ", Author = "   Jon Skeet   ", Year = "2019  ", PublishingHous = "Manning", Edition = "4", Pages = "900", Price = "40$" };
+        Book book = new Book() { Title = "C# in Depth    ", Author = "   Jon Skeet   ", Year = 2019, PublishingHous = "Manning", Edition = 4, Pages = 900, Price = 40 };
+        
 
         [Test] 
-        public void ToString_GeneralFormat_ReturnedStringViewOfBookInGeneralFormat()
+        public void ToString_GeneralFormatWithUSCulture_ReturnedStringViewOfBookInGeneralFormat()
         { 
             // Arrange
-            string expectedResult = "C# in Depth, Jon Skeet, 2019, Manning, 4, 900, 40$";
+            string expectedResult = "C# in Depth, Jon Skeet, 2019, Manning, 4, 900, $40.00";
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+
+            // Act
+            string result = book.ToString();
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void ToString_GeneralFormatWithCurrentCulture_ReturnedStringViewOfBookInGeneralFormat()
+        {
+            // Arrange
+            string expectedResult = "C# in Depth, Jon Skeet, 2019, Manning, 4, 900, 40,00 Br";            
 
             // Act
             string result = book.ToString();
@@ -85,6 +102,8 @@ namespace BookLibrary.Tests
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
+
+
         [Test]
         public void ToString_UnsupportedFormatFormat_ThrownException()
             => Assert.Throws<FormatException>(() => String.Format("{0:XYZ}", book));
