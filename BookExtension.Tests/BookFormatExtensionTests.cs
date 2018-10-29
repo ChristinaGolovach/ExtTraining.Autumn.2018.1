@@ -8,5 +8,6 @@ namespace BookExtension.Tests
 {
     public class BookFormatExtensionTests
     {
+        
     }
 }

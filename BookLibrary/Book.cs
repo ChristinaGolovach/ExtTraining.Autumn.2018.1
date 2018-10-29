@@ -42,17 +42,17 @@ namespace BookLibrary
             switch (format.ToUpperInvariant())
             {
                 case "G":
-                    return Title.ToString() + ", " + Author.ToString() + ", " + Year.ToString() + ", " + PublishingHous.ToString() + ", " + Edition.ToString() + ", " + Pages.ToString() + ", " + Price.ToString();
+                    return Title.ToString().Trim()+ ", " + Author.ToString().Trim() + ", " + Year.ToString().Trim() + ", " + PublishingHous.ToString().Trim() + ", " + Edition.ToString().Trim() + ", " + Pages.ToString().Trim() + ", " + String.Format("{0:C}",Price).Trim();
                 case "ATYP":
-                    return Author.ToString() + ", " + Title.ToString() + ", " + Year.ToString() + ", " + PublishingHous.ToString();
+                    return Author.ToString().Trim() + ", " + Title.ToString().Trim() + ", " + Year.ToString().Trim() + ", " + PublishingHous.ToString().Trim();
                 case "ATY":
-                   return Author.ToString() + ", " + Title.ToString() + ", " + Year.ToString();
+                   return Author.ToString().Trim() + ", " + Title.ToString().Trim() + ", " + Year.ToString().Trim();
                 case "AT":
-                    return Author.ToString() + ", " + Title.ToString();
+                    return Author.ToString().Trim() + ", " + Title.ToString().Trim();
                 case "TYP":
-                    return Title.ToString() + "," + Year.ToString() + ", " + PublishingHous.ToString();
+                    return Title.ToString().Trim() + ", " + Year.ToString().Trim() + ", " + PublishingHous.ToString().Trim();
                 case "T":
-                    return Title.ToString();
+                    return Title.ToString().Trim();
                 default:
                     throw new FormatException($"This {format} is  not supported");
             }
