@@ -29,7 +29,7 @@ namespace StringExtension.Tests
         [TestCase("535A79889", 13)]
         [TestCase("1550104015504", 6)]
         public void StringToDecimal_TooBigValue_ThrowsArgumentException(string source, int @base) =>
-            Assert.Throws<OverflowException>(() => source.ToDecimal(@base));
+            Assert.Throws<ArgumentException>(() => source.ToDecimal(@base));
 
         [TestCase("0110111101100001100001010111111", 2, ExpectedResult = 934331071)]
         [TestCase("01101111011001100001010111111", 2, ExpectedResult = 233620159)]
@@ -43,6 +43,7 @@ namespace StringExtension.Tests
         [TestCase("332", 4, ExpectedResult = 62)]
         [TestCase("bc3215", 13, ExpectedResult = 4433902)]
         [TestCase("213423412", 10, ExpectedResult = 213423412)]
+        [TestCase("1102", 3, ExpectedResult = 38)]
         public int StringToDecimal_ValidInput_ValidResult(string source, int @base) 
             => source.ToDecimal(@base);
     }
